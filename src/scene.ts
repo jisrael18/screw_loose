@@ -247,34 +247,24 @@ export function createScene(
       0.045,
       true,
     );
+    // Every fastener uses the same Phillips cross recess. Color identifies the
+    // tray; the head geometry stays consistent across the whole level.
     primitive(
       root,
-      "Driver slot",
+      "Phillips recess horizontal",
       "box",
       "#324147",
       [0, 0, 0.177],
       [0.32, 0.065, 0.009],
     );
-    if (s.color === "teal")
-      primitive(
-        root,
-        "Cross driver",
-        "box",
-        "#324147",
-        [0, 0, 0.18],
-        [0.065, 0.32, 0.009],
-      );
-    if (s.color === "gold") {
-      const slot = primitive(
-        root,
-        "Diagonal driver",
-        "box",
-        "#324147",
-        [0, 0, 0.18],
-        [0.065, 0.3, 0.009],
-      );
-      slot.setLocalEulerAngles(0, 0, 45);
-    }
+    primitive(
+      root,
+      "Phillips recess vertical",
+      "box",
+      "#324147",
+      [0, 0, 0.18],
+      [0.065, 0.32, 0.009],
+    );
     return { screw: s, root, origin };
   });
   let current: State | undefined;

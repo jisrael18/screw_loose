@@ -23,7 +23,7 @@ The Brass Pinwheel is a hand-authored, solver-tested 3D level: six overlapping b
 
 Screws spin and lift out before flying toward the tray or spare-slot area. Released beams tilt and fall off the assembly. These are deterministic visual animations, not a rigid-body physics simulation. Input pauses briefly during removal; **undo and restart remain available and cancel animations immediately**. Reduced-motion settings skip the animations. The renderer draws only when the camera, scene, or animation changes.
 
-The expandable keyboard controls offer labeled buttons for every exposed screw, and remain playable if WebGL initialization fails. Driver-slot patterns distinguish screw colors. Sound, progression, saving, fuller accessibility, and tray-to-tray transfer choreography remain follow-up work.
+The expandable keyboard controls offer labeled buttons for every exposed screw, and remain playable if WebGL initialization fails. Every fastener has the same Phillips cross recess; color is reserved for tray matching. Sound, progression, saving, fuller accessibility, and tray-to-tray transfer choreography remain follow-up work.
 
 ## Development
 
