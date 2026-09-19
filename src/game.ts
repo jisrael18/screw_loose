@@ -9,6 +9,9 @@ export interface Screw {
 export interface Plate {
   id: number;
   z: number;
+  x: number;
+  y: number;
+  angle: number;
   width: number;
   height: number;
 }
@@ -27,31 +30,53 @@ export interface State {
 }
 export const colors: Color[] = ["coral", "teal", "gold"];
 export function demoLevel(): Level {
-  const rows: Color[][] = [
-    ["gold", "teal", "coral", "gold", "teal", "coral"],
-    ["teal", "gold", "coral", "coral", "gold", "gold"],
-    ["coral", "teal", "coral", "teal", "teal", "gold"],
-  ];
+  const plates: Plate[] = Array.from({ length: 6 }, (_, id) => ({
+    id,
+    x: 0,
+    y: 0,
+    z: id * 0.42,
+    angle: id * 30,
+    width: 5.4,
+    height: 0.88,
+  }));
   return {
-    name: "The little workshop",
-    plates: [0, 1, 2].map((id) => ({
-      id,
-      z: id * 0.35,
-      width: 5.6 - id * 0.35,
-      height: 3.9 - id * 0.3,
-    })),
-    screws: rows.flatMap((row, plate) =>
-      row.map((color, i) => ({
-        id: plate * 6 + i,
-        plate,
-        color,
-        x: ((i % 3) - 1) * 1.65,
-        y: i < 3 ? 1 : -1,
+    name: "The brass pinwheel",
+    plates,
+    screws: plates.flatMap((p) =>
+      [-2.16, 0, 2.16].map((x, i) => ({
+        id: p.id * 3 + i,
+        plate: p.id,
+        color: colors[(i + p.id) % colors.length]!,
+        ...plateToWorld(p, x, 0),
       })),
     ),
     queue: ["coral", "teal", "gold", "coral", "teal", "gold"],
   };
 }
+/** Plate-local coordinates are shared by rendering and exposure tests. */
+export function plateToWorld(p: Plate, x: number, y: number) {
+  const a = (p.angle * Math.PI) / 180;
+  return {
+    x: p.x + x * Math.cos(a) - y * Math.sin(a),
+    y: p.y + x * Math.sin(a) + y * Math.cos(a),
+  };
+}
+export function worldToPlate(p: Plate, x: number, y: number) {
+  const a = (-p.angle * Math.PI) / 180;
+  return {
+    x: (x - p.x) * Math.cos(a) - (y - p.y) * Math.sin(a),
+    y: (x - p.x) * Math.sin(a) + (y - p.y) * Math.cos(a),
+  };
+}
+/** Conservative clearance around the head, independent of viewing angle. */
+export function coversScrew(p: Plate, screw: Screw): boolean {
+  const local = worldToPlate(p, screw.x, screw.y);
+  return (
+    Math.abs(local.x) < p.width / 2 + 0.28 &&
+    Math.abs(local.y) < p.height / 2 + 0.28
+  );
+}
+
 export function initialState(level: Level): State {
   return {
     removed: [],
@@ -74,8 +99,7 @@ export function exposed(level: Level, state: State, screw: Screw): boolean {
       (p) =>
         p.z > plate.z &&
         platePresent(level, state, p.id) &&
-        Math.abs(screw.x) < p.width / 2 + 0.25 &&
-        Math.abs(screw.y) < p.height / 2 + 0.25,
+        coversScrew(p, screw),
     )
   );
 }

@@ -18,8 +18,8 @@
       <section class="workshop">
         <div class="topline">
           <div>
-            <p class="eyebrow">DEMO 01</p>
-            <h2>The little workshop</h2>
+            <p class="eyebrow">3D STUDY / 01</p>
+            <h2 id="level-name">The brass pinwheel</h2>
           </div>
           <span id="progress"></span>
         </div>
@@ -28,8 +28,15 @@
           <canvas
             id="board"
             aria-label="Layered screw puzzle. Use the screw buttons below for keyboard play."
-          ></canvas
-          ><span class="board-label">ONE SCREW AT A TIME</span>
+          ></canvas>
+          <div class="board-caption">
+            <span>THE BRASS PINWHEEL</span
+            ><small>6 PIECES / 18 FASTENERS</small>
+          </div>
+          <div class="victory" aria-hidden="true">
+            Beautifully undone.<small>Workshop cleared.</small>
+          </div>
+          <span class="board-label">DRAG TO ROTATE · TAP TO UNSCREW</span>
         </div>
         <div class="buffer-row">
           <div>
@@ -39,7 +46,9 @@
         </div>
         <p id="status" role="status" aria-live="polite"></p>
         <div class="controls">
-          <button id="undo">↶ Undo</button><button id="restart">Restart</button>
+          <button id="reset-view">Reset view</button
+          ><button id="undo">↶ Undo</button
+          ><button id="restart">Restart</button>
         </div>
       </section>
       <footer>
