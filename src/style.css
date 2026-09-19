@@ -102,8 +102,23 @@ h2 {
   border-radius: 50%;
   background: var(--color);
   color: #213038;
-  font-size: 14px;
   box-shadow: inset 0 -3px 0 #0002;
+  position: relative;
+}
+.dot:not(.empty)::before,
+.dot:not(.empty)::after {
+  content: "";
+  position: absolute;
+  background: #26383d;
+  border-radius: 1px;
+}
+.dot:not(.empty)::before {
+  width: 15px;
+  height: 3px;
+}
+.dot:not(.empty)::after {
+  width: 3px;
+  height: 15px;
 }
 .dot.empty {
   background: #17282f;

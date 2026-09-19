@@ -28,7 +28,7 @@ function choose(id: number) {
   render(id);
 }
 function dot(color?: (typeof colors)[number]) {
-  return `<span class="dot ${color ?? "empty"}" ${color ? `style="--color:${palette[color]}"` : ""}>${color ? ["●", "◆", "▲"][colors.indexOf(color)] : ""}</span>`;
+  return `<span class="dot ${color ?? "empty"}" ${color ? `style="--color:${palette[color]}"` : ""} aria-label="${color ? `${color} Phillips screw` : "empty slot"}></span>`;
 }
 function render(removedId?: number) {
   scene?.sync(state, removedId);
